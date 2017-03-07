@@ -1,26 +1,52 @@
 <!doctype html>
 <html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-        <link rel="stylesheet" href="css/normalize.min.css">
-        <link rel="stylesheet" href="css/main.css">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>HTML5 video streaming test</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
-    </head>
-    <body>
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/main.css">
 
-        <p>Hello world! This is HTML5 Boilerplate.</p>
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+<body>
+
+    <h1>HTML5 streaming video test</h1>
+    <video width="320" height="240" autoplay>
+    <source src="http://192.168.1.46:8080/stream" type="video/ogg" />
+    HTML5 video not supported.
+</video>
+    <p>
+        this test will use the <code>video</code> tag to create a stream from an axis camera. ths stream source is from VLC running on the Linux development server at 192.168.1.46 The full stream address is: http://192.168.1.46:8080/stream which you can
+        run on a VLC client. so far i only managed to get the stream from VLC working with the ogg format encapsulation with no audio. have to look into using NODE.js server side stream solution
+    </p>
+    <p>
+        the src stream is encapsulated in an ogg container and encoded with h.264 and no audio. the video source stream that VLC encodes directly from the Axis camera is:<br/> rtsp://192.168.96.71/axis-media/media.amp?videocodec=h264
+        <p>
+            from a terminal you can use the following command to start streaming (example using the stream directly from the Axis camera):<br/>
+            <code>cvlc rtsp://192.168.96.71/axis-media/media.amp?videocodec=h264 :sout="#transcode{vcodec=theo,vb=256,fps=24,scale=Auto,width=320,height=240,acodec=none}:http{mux=ogg,dst=:8080/stream}"</code>
+        </p>
+
+        <p>
+            from a terminal you can use the following command to start streaming (example using the stream from genetec):
+            <br/>
+            <code>cvlc rtsp://10.155.96.116:654/00000001-0000-babe-0000-00408cce79a3/live --rtsp-user=rtsp --rtsp-pwd=router :live-caching=1000 :sout="#transcode{vcodec=theo,vb=256,fps=24,scale=Auto,width=320,height=240,acodec=none}:http{mux=ogg,dst=:8080/stream}"
+        <br/>
+        <img src="img/vlc-linux-stream-cmd.png" alt="" width="100%">
+      </code>
+        </p>
+
+
+        <script src="js/vendor/jquery-1.11.2.min.js"></script>
 
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
-    </body>
+</body>
+
 </html>
